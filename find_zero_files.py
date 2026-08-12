@@ -1,28 +1,49 @@
 from pathlib import Path
 import sys
 
-root = Path(sys.argv[1])
+
 CHECK_BYTES = 4096
+GRAY = "\033[90m"
+RED = "\033[91m"
+RESET = "\033[0m"
 
-found = []
 
-for path in root.rglob("*"):
-    if not path.is_file():
-        continue
+def colored(text, color):
+    if sys.stdout.isatty():
+        return f"{color}{text}{RESET}"
+    return text
 
-    try:
-        if path.stat().st_size == 0:
+
+def scan(root):
+    found = []
+
+    for path in Path(root).rglob("*"):
+        if not path.is_file():
             continue
 
-        with path.open("rb") as f:
-            data = f.read(CHECK_BYTES)
+        try:
+            size = path.stat().st_size
+            if size == 0:
+                continue
 
-        if data and all(b == 0 for b in data):
-            print(f"PODEZŘELÝ: {path}  ({path.stat().st_size:,} bytes)")
-            found.append(path)
+            with path.open("rb") as file:
+                data = file.read(CHECK_BYTES)
 
-    except Exception as e:
-        print(f"Nelze přečíst: {path}: {e}")
+            if data and all(byte == 0 for byte in data):
+                message = f"PODEZŘELÝ: {path}  ({size:,} bytes)"
+                print(colored(message, RED))
+                found.append(path)
+            else:
+                message = f"OK: {path}  ({size:,} bytes)"
+                print(colored(message, GRAY))
 
-print()
-print(f"Nalezeno podezřelých souborů: {len(found)}")
+        except Exception as error:
+            print(f"Nelze přečíst: {path}: {error}")
+
+    print()
+    print(f"Nalezeno podezřelých souborů: {len(found)}")
+    return found
+
+
+if __name__ == "__main__":
+    scan(Path(sys.argv[1]))
