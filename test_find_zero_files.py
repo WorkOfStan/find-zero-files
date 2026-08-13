@@ -1,8 +1,8 @@
 import io
+import unittest
 from contextlib import redirect_stdout
 from pathlib import Path
 from tempfile import TemporaryDirectory
-import unittest
 from unittest.mock import patch
 
 from find_zero_files import GRAY, RED, RESET, colored, scan

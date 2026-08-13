@@ -1,6 +1,5 @@
-from pathlib import Path
 import sys
-
+from pathlib import Path
 
 CHECK_BYTES = 4096
 IGNORED_EXTENSIONS = {".gdoc", ".gsheet", ".gslides"}
