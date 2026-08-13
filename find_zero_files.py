@@ -3,7 +3,7 @@ import sys
 
 
 CHECK_BYTES = 4096
-IGNORED_EXTENSIONS = {".gdoc", ".gsheet"}
+IGNORED_EXTENSIONS = {".gdoc", ".gsheet", ".gslides"}
 GRAY = "\033[90m"
 RED = "\033[91m"
 RESET = "\033[0m"
