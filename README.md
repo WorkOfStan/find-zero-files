@@ -34,9 +34,19 @@ Každý zpracovaný neprázdný soubor se vypíše spolu se svou velikostí:
   červeně.
 - `Nelze přečíst` – soubor se nepodařilo otevřít nebo načíst.
 
-Na konci skript vypíše celkový počet podezřelých souborů. Prázdné soubory
+Na konci skript vypíše celkový počet souborů v pořádku a podezřelých souborů. Prázdné soubory
 o velikosti 0 bajtů se přeskakují. Při přesměrování výstupu do souboru se
 nepoužívají terminálové barvy.
+
+### Ignorované přípony
+
+Soubory s následujícími příponami se nekontrolují ani nezapočítávají do souhrnu:
+
+- `.gdoc`
+- `.gsheet`
+
+Přípony se porovnávají bez ohledu na velikost písmen. Seznam lze upravit
+v konstantě `IGNORED_EXTENSIONS` v souboru `find_zero_files.py`.
 
 Příklad:
 
@@ -44,6 +54,7 @@ Příklad:
 PODEZŘELÝ: sample\190523_Smlouva_EMPTY.pdf  (11,576,977 bytes)
 OK: sample\test.pdf  (14,704 bytes)
 
+Souborů v pořádku: 1
 Nalezeno podezřelých souborů: 1
 ```
 
