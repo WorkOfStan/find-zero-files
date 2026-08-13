@@ -1,0 +1,25 @@
+[MAIN]
+persistent=no
+
+[FORMAT]
+max-line-length=120
+
+[TYPECHECK]
+ignored-modules=pytest
+
+[MESSAGES CONTROL]
+disable=
+    broad-exception-caught,
+    import-outside-toplevel,
+    missing-class-docstring,
+    missing-function-docstring,
+    missing-module-docstring,
+    too-many-arguments,
+    too-many-branches,
+    too-many-instance-attributes,
+    too-many-locals,
+    too-many-positional-arguments,
+    too-many-return-statements,
+    too-many-statements,
+    unused-argument,
+    use-implicit-booleaness-not-comparison
