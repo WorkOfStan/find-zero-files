@@ -34,7 +34,7 @@ def scan(root):
                 data = file.read(CHECK_BYTES)
 
             if data and all(byte == 0 for byte in data):
-                message = f"PODEZŘELÝ: {path}  ({size:,} bytes)"
+                message = f"SUSPICIOUS: {path}  ({size:,} bytes)"
                 print(colored(message, RED))
                 found.append(path)
             else:
@@ -43,11 +43,11 @@ def scan(root):
                 ok_count += 1
 
         except Exception as error:
-            print(f"Nelze přečíst: {path}: {error}")
+            print(f"Cannot read: {path}: {error}")
 
     print()
-    print(f"Souborů v pořádku: {ok_count}")
-    print(f"Nalezeno podezřelých souborů: {len(found)}")
+    print(f"Files OK: {ok_count}")
+    print(f"Suspicious files found: {len(found)}")
     return found
 
 

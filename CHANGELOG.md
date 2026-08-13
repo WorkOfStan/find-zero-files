@@ -25,7 +25,10 @@ feat: check all files in a folder for not containing just zeroes
 
 ### Added
 
-- TODO: codex should describe
+- Scans directories recursively and checks the first 4,096 bytes of every non-empty file for zero-only content.
+- Skips Google Docs, Sheets, and Slides placeholder files and reports unreadable files without stopping the scan.
+- Displays color-coded results, file sizes, and a final summary of files that passed the check and suspicious files.
+- Includes automated tests and sample PDF files for ordinary and suspicious-file detection.
 
 [Unreleased]: https://github.com/WorkOfStan/find-zero-files/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/WorkOfStan/find-zero-files/releases/tag/v0.1.0

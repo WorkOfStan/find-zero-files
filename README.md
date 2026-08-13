@@ -1,74 +1,72 @@
 # find-zero-files
 
-Jednoduchý nástroj pro vyhledání poškozených souborů na cloudových discích.
-Kontroluje začátek každého souboru a upozorní na soubory, jejichž obsah tvoří
-pouze nulové bajty.
+A simple tool for finding corrupted files on cloud drives. It checks the beginning of each file and reports files
+whose inspected content consists entirely of zero bytes.
 
-## Požadavky
+## Requirements
 
-- Python 3.8 nebo novější
-- žádné externí knihovny
+- Python 3.8 or newer
+- No external libraries
 
-## Použití
+## Usage
 
-Skriptu předejte cestu ke složce, kterou chcete rekurzivně prohledat:
+Pass the script the path to the directory that you want to scan recursively:
 
 ```powershell
 python find_zero_files.py "G:\My Drive"
 ```
 
-(Bacha na to nedávat lomítko na konec před uvozovku.)
+When quoting a Windows path, do not put a trailing backslash immediately before the closing quotation mark.
 
-Lze použít také relativní cestu:
+You can also use a relative path:
 
 ```powershell
 python find_zero_files.py sample
 ```
 
-## Výstup
+## Output
 
-Každý zpracovaný neprázdný soubor se vypíše spolu se svou velikostí:
+Each processed non-empty file is displayed with its size:
 
-- `OK` – soubor je v pořádku; v terminálu se zobrazuje šedě.
-- `PODEZŘELÝ` – kontrolovaná část obsahuje pouze nulové bajty; zobrazuje se
-  červeně.
-- `Nelze přečíst` – soubor se nepodařilo otevřít nebo načíst.
+- `SUSPICIOUS` - the inspected portion contains only zero bytes; displayed in red in a terminal.
+- `OK` - the file passed the check; displayed in gray in a terminal.
+- `Cannot read` - the file could not be opened or read.
 
-Na konci skript vypíše celkový počet souborů v pořádku a podezřelých souborů. Prázdné soubory
-o velikosti 0 bajtů se přeskakují. Při přesměrování výstupu do souboru se
-nepoužívají terminálové barvy.
+At the end, the script displays the total number of files that passed the check and the number of suspicious files.
+Empty files with a size of 0 bytes are skipped. Terminal colors are disabled when output is redirected to a file.
 
-### Ignorované přípony
+### Ignored extensions
 
-Soubory s následujícími příponami se nekontrolují ani nezapočítávají do souhrnu:
+Files with the following extensions are neither checked nor included in the summary:
 
 - `.gdoc`
 - `.gsheet`
+- `.gslides`
 
-Přípony se porovnávají bez ohledu na velikost písmen. Seznam lze upravit
-v konstantě `IGNORED_EXTENSIONS` v souboru `find_zero_files.py`.
+Extensions are matched case-insensitively. You can modify the list in the `IGNORED_EXTENSIONS` constant in
+`find_zero_files.py`.
 
-Příklad:
+Example:
 
 ```text
-PODEZŘELÝ: sample\190523_Smlouva_EMPTY.pdf  (11,576,977 bytes)
+SUSPICIOUS: sample\190523_Contract_EMPTY.pdf  (11,576,977 bytes)
 OK: sample\test.pdf  (14,704 bytes)
 
-Souborů v pořádku: 1
-Nalezeno podezřelých souborů: 1
+Files OK: 1
+Suspicious files found: 1
 ```
 
-## Jak kontrola funguje
+## How the check works
 
-Z každého neprázdného souboru se načte prvních 4 096 bajtů. Pokud jsou všechny
-nulové, soubor je označen jako podezřelý. Nástroj obsah souborů nemění.
+The script reads the first 4,096 bytes of every non-empty file. If all the inspected bytes are zero, it marks the file
+as suspicious. The tool does not modify file contents.
 
-## Testy
+## Tests
 
-Automatické testy používají vzorové soubory ve složce `sample`:
+The automated tests use the sample files in the `sample` directory:
 
 ```powershell
 python -m unittest -v
 ```
 
-Test ověřuje rozpoznání běžného i podezřelého PDF a správné terminálové barvy.
+The tests verify ordinary and suspicious PDF detection, ignored Google document extensions, and terminal colors.
